@@ -13,6 +13,7 @@ class Bootstrap {
         if (empty($url[0])) {
             require 'controllers/index.php';
             $controller = new Index();
+            $controller->index();
             return false;
         }
         
@@ -29,27 +30,38 @@ class Bootstrap {
             require $file;
         } else {
             
-            require 'controllers/error.php';
-            $controller = new Error();
-            // throw new Exception("The file $file does not exist.");
-            return false;
+            $this->error();
         }
 
         $controller = new $url[0];
-
-        if (isset($url[2])) {
-    
-        $controller->{$url[1]}($url[2]);
         
-        } else {
-    
-            if (isset($url[1])) {
-    
-                $controller->{$url[1]}();
-    
-            }
-        }
+        
+        // calling methods
+		if (isset($url[2])) {
+			if (method_exists($controller, $url[1])) {
+				$controller->{$url[1]}($url[2]);
+			} else {
+				$this->error();
+			}
+		} else {
+			if (isset($url[1])) {
+				if (method_exists($controller, $url[1])) {
+					$controller->{$url[1]}();
+				} else {
+					$this->error();
+				}
+			} else {
+				$controller->index();
+			}
+		}
     }
+    
+    function error() {
+		require 'controllers/error.php';
+		$controller = new Error();
+		$controller->index();
+		return false;
+	}
 }
 
 

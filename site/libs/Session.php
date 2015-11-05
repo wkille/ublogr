@@ -3,7 +3,7 @@
 class Session {
     
     public static function init() {
-        session_start();
+        @session_start();
     }
     
     public static function set($key, $value) {
@@ -12,7 +12,9 @@ class Session {
     }
     
     public static function get($key) {
-        return $_SESSION[$key];
+        if (isset($_SESSION[$key])) {
+            return $_SESSION[$key];
+        }
     }
     
     public static function destroy() {

@@ -18,8 +18,14 @@ class Login_Model extends Model {
         $count = $sth->rowCount();
         if ($count > 0) {
             // login
+            Session::init();
+            Session::set('loggedIn', true);
+            // (working) header('location: https://ublogr-wkille.c9.io/site/dashboard');
+            header('location:' .URL. 'dashboard');
         } else {
             // show an error!
+            // (working) header('location: https://ublogr-wkille.c9.io/site/login');
+            header('location:' .URL. 'login');
         }
     }
 }

@@ -34,6 +34,7 @@ class Bootstrap {
         }
 
         $controller = new $url[0];
+        $controller->loadModel($url[0]);
         
         
         // calling methods

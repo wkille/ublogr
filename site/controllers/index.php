@@ -8,8 +8,7 @@ class Index extends Controller {
     }
     
     function index() {
-        
-        echo "INSIDE INDEX INDEX";
+
         $this->view->render('index/index');
     }
     

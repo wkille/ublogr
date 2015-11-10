@@ -1,42 +1,5 @@
 <?php
 
-/*
-// class Database extends PDO {
-class Database {
-    
-    public function __construct() {
-        
-        // parent::__construct();
-        $servername = getenv('IP');
-        $username = getenv('C9_USER');
-        $password = "";
-        $database = "mvc";
-        $dbport = 3306;
-        
-        $db = new mysqli($servername, $username, $password, $database, $dbport);
-        // var_dump($db);
-
-    }
-}
-*/
-
-/*
-class Database extends PDO {
-    public function __construct() {
-        
-        // $servername = getenv('IP');
-        // $username = getenv('C9_USER');
-        // $password = "";
-        // $database = "mvc";
-        // $dbport = 3306;
-        
-        // (working) parent::__construct('mysql:host=0.0.0.0;dbname=mvc', $username, $password);
-        parent::__construct(DB_TYPE.':host='.DB_HOST.';dbname='.DB_NAME, DB_USER, DB_PASS);
-        // parent::__construct('mysql:host=$servername;dbname=$database', $username, $password);
-    }
-}
-*/
-
 class Database extends PDO {
     public function __construct($DB_TYPE, $DB_HOST, $DB_NAME, $DB_USER, $DB_PASS) {
         
@@ -46,9 +9,30 @@ class Database extends PDO {
     
     
     /*
+    * select
+    * @param string $sql An SQL string
+    * @param array $data Parameters to bind
+    * @param constant $fetchMode A PDO fetch mode
+    * @return mixed
+    */
+    public function select($sql, $array = array(), $fetchMode = PDO::FETCH_ASSOC) {
+        
+        $sth = $this->prepare($sql);
+        foreach ($array as $key => $value) {
+            
+            $sth->bindValue($key, $value);
+        }
+        
+        $sth->execute();
+        
+        return $sth->fetchAll($fetchMode);
+    }
+    
+    
+    /*
     * insert
     * @param string $table A name of a table to insert into
-    * @param string $data An Associative array
+    * @param array $data An Associative array
     */
     public function insert($table, $data) {
         
@@ -73,7 +57,7 @@ class Database extends PDO {
     /*
     * update
     * @param string $table A name of a table to insert into
-    * @param string $data An Associative array
+    * @param array $data An Associative array
     * @param string $where The WHERE query part
     */
     public function update($table, $data, $where) {
@@ -96,6 +80,18 @@ class Database extends PDO {
         }
         
         $sth->execute();
+    }
+    
+    /*
+    * delete
+    * @param string $table A name of the table to delete from
+    * @param string $where The WHERE query part
+    * @param integer $limit
+    * @return integer Affected rows
+    */
+    public function delete($table, $where, $limit = 1) {
+        
+        return $this->exec("DELETE FROM $table WHERE $where LIMIT $limit");
     }
 }
 

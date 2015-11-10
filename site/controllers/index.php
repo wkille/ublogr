@@ -8,7 +8,7 @@ class Index extends Controller {
     }
     
     function index() {
-
+        // echo Hash::create('sha256', 'wayne', HASH_PASSWORD_KEY);
         $this->view->render('index/index');
     }
     

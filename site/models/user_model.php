@@ -28,7 +28,7 @@ class User_Model extends Model {
                     
         $sth->execute(array(
             ':login' => $data['login'],
-            ':password' => $data['password'],
+            ':password' => Hash::create('md5', $data['password'], HASH_PASSWORD_KEY),
             ':role' => $data['role']
         ));
     }
@@ -42,9 +42,11 @@ class User_Model extends Model {
         $sth->execute(array(
             ':id' => $data['id'],
             ':login' => $data['login'],
-            ':password' => md5($data['password']),
+            // ':password' => md5($data['password']),
+            ':password' => Hash::create('md5', $data['password'], HASH_PASSWORD_KEY),
             ':role' => $data['role']
         ));
+        
     }
     
     public function delete($id) {

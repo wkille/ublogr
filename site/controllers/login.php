@@ -7,6 +7,7 @@ class Login extends Controller {
     }
     
     function index() {
+        // echo Hash::create('md5', 'test', HASH_KEY);
         $this->view->render('login/index');
     }
     

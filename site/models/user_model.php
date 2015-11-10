@@ -22,23 +22,25 @@ class User_Model extends Model {
     
     public function create($data) {
         
-        $sth = $this->db->prepare('INSERT INTO users 
-                    (`login`, `password`, `role`) VALUES 
-                    (:login, :password, :role)');
-                    
-        $sth->execute(array(
-            ':login' => $data['login'],
-            ':password' => Hash::create('md5', $data['password'], HASH_PASSWORD_KEY),
-            ':role' => $data['role']
-        ));
+        $this->db->insert('users', array(
+                'login' => $data['login'],
+                'password' => Hash::create('md5', $data['password'], HASH_PASSWORD_KEY),
+                'role' => $data['role']
+            ));
     }
     
     public function editSave($data) {
         
-        $sth = $this->db->prepare('UPDATE users 
-                    SET `login` = :login, `password` = :password, `role` = :role
-                    WHERE id = :id');
+        
+        $postData = array(
+                'login' => $data['login'],
+                'password' => Hash::create('md5', $data['password'], HASH_PASSWORD_KEY),
+                'role' => $data['role']
+            );
+        
+        $this->db->update('users', $postData, "`id` = {$data['id']} ");
                     
+        /*
         $sth->execute(array(
             ':id' => $data['id'],
             ':login' => $data['login'],
@@ -46,6 +48,7 @@ class User_Model extends Model {
             ':password' => Hash::create('md5', $data['password'], HASH_PASSWORD_KEY),
             ':role' => $data['role']
         ));
+        */
         
     }
     

@@ -1,6 +1,6 @@
 <?php
 
-class User extends Controller {
+class Note extends Controller {
     
     
     public function __construct() {
@@ -10,8 +10,8 @@ class User extends Controller {
     }
     
     public function index() {
-        $this->view->userList = $this->model->userList();
-        $this->view->render('user/index');
+        $this->view->noteList = $this->model->noteList();
+        $this->view->render('note/index');
     }
     
     public function create() {

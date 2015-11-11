@@ -5,6 +5,9 @@ class Dashboard extends Controller {
     
     function __construct() {
         parent::__construct();
+        Auth::handleLogin();
+        
+        /*
         Session::init();
         $logged = Session::get('loggedIn');
         if ($logged == false) {
@@ -13,6 +16,7 @@ class Dashboard extends Controller {
             header('location:' .URL. 'login');
             exit;
         }
+        */
         
         $this->view->js = array('dashboard/js/default.js');
     }

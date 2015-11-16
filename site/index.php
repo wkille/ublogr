@@ -9,6 +9,16 @@ function __autoload($class) {
     require LIBS. $class . ".php";
 }
 
+// Load the Bootstrap
+$bootstrap = new Bootstrap();
 
-$app = new Bootstrap();
+// Optional Path Settings
+// $bootstrap->setControllerPath('c');
+// $bootstrap->setModelPath('m');
+// $bootstrap->setDefaultFile('optional.php');
+// $bootstrap->setErrorFile('error.php');
+
+$bootstrap->init();
+
+
 

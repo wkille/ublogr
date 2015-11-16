@@ -35,7 +35,7 @@ class User_Model extends Model {
                 'role' => $data['role']
             );
         
-        $this->db->update('user', $postData, "`userid` = {$data['userid']} ");
+        $this->db->update('user', $postData, "`userid` = '{$data['userid']}'");
         
     }
     

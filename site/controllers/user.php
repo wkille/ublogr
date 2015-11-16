@@ -36,7 +36,7 @@ class User extends Controller {
     public function editSave($id) {
         
         $data = array();
-        $data['id'] = $id;
+        $data['userid'] = $id;
         $data['login'] = $_POST['login'];
         $data['password'] = $_POST['password'];
         $data['role'] = $_POST['role'];

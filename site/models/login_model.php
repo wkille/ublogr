@@ -8,7 +8,7 @@ class Login_Model extends Model {
     
     public function run() {
         
-        $sth = $this->db->prepare("SELECT id, role FROM user WHERE login = :login AND
+        $sth = $this->db->prepare("SELECT userid, role FROM user WHERE login = :login AND
                     password = :password");
         $sth->execute(array(
             ':login' => $_POST['login'],
@@ -25,6 +25,7 @@ class Login_Model extends Model {
             Session::init();
             Session::set('role', $data['role']);
             Session::set('loggedIn', true);
+            Session::set('userid', $data['userid']);
             // (working) header('location: https://ublogr-wkille.c9.io/site/dashboard');
             header('location:' .URL. 'dashboard');
         } else {

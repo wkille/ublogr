@@ -8,19 +8,25 @@ class Note_Model extends Model {
     
     public function noteList() {
         
-        return $this->db->select('SELECT * FROM note');
+        return $this->db->select('SELECT * FROM note WHERE userid = :userid', 
+                        array(':userid' => $_SESSION['userid']));
     }
     
-    public function noteSingleList($id) {
-        return $this->db->select('SELECT * FROM note WHERE id = :id', array(':id' => $id));
+    public function noteSingleList($noteid) {
+        return $this->db->select('SELECT * FROM note WHERE userid = :userid 
+                        AND noteid = :noteid', array(':userid' => $_SESSION['userid'], 
+                        ':noteid' => $noteid));
+                        //'noteid' => $noteid));
     }
     
     public function create($data) {
         
-        $this->db->insert('user', array(
-                'login' => $data['login'],
-                'password' => Hash::create('sha256', $data['password'], HASH_PASSWORD_KEY),
-                'role' => $data['role']
+        date('Y-m-d H:i:s');
+        $this->db->insert('note', array(
+                'title' => $data['title'],
+                'userid' => $_SESSION['userid'],
+                'content' => $data['content'],
+                'date_added' => date('Y-m-d H:i:s') // use GMT aka UTC 0.00
             ));
     }
     
@@ -28,22 +34,19 @@ class Note_Model extends Model {
         
         
         $postData = array(
-                'login' => $data['login'],
-                'password' => Hash::create('sha256', $data['password'], HASH_PASSWORD_KEY),
-                'role' => $data['role']
+                'title' => $data['title'],
+                'content' => $data['content']
             );
         
-        $this->db->update('user', $postData, "`id` = {$data['id']} ");
+        $this->db->update('note', $postData, 
+                        "`noteid` = '{$data['noteid']}' AND `userid` = '{$_SESSION['userid']}'");
         
     }
     
-    public function delete($id) {
+    public function delete($noteid) {
         
-        // database wrapper - ??
-        $result = $this->db->select('SELECT role FROM user WHERE id = :id', array(':id' => $id));
-
-        if ($result[0]['role'] == 'owner') return false;
-        
-        $this->db->delete('user', "id = '$id'");
+        // $this->db->delete('note', "`noteid` = {$data['noteid']} AND 
+        $this->db->delete('note', "`noteid` = $noteid AND 
+                        `userid` = '{$_SESSION['userid']}'");
     }
 }

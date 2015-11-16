@@ -1,7 +1,8 @@
 <h1>Note</h1>
 
 <form method="post" action="<?php echo URL; ?>note/create">
-    <label>Login</label><input type="text" name="login" /><br />
+    <label>Title</label><input type="text" name="title" /><br />
+    <label>Content</label><textarea name="content"></textarea><br />
     <label>&nbsp;</label><input type="submit" />
 </form>
 
@@ -10,16 +11,26 @@
 <table>
     <?php
         foreach($this->noteList as $key => $value) {
-        //    echo '<tr>';
-        //    echo '<td>' . $value['id'] . '</td>';
-        //    echo '<td>' . $value['login'] . '</td>';
-        //    echo '<td>' . $value['role'] . '</td>';
-        //    echo '<td>
-        //        <a href="'.URL.'user/edit/'.$value['id'].'">Edit</a> 
-        //        <a href="'.URL.'user/delete/'.$value['id'].'">Delete</a>
-        //    </td>';
-        //    echo '</tr>';
+            echo '<tr>';
+            echo '<td>' . $value['title'] . '</td>';
+            echo '<td>' . $value['date_added'] . '</td>';
+            echo '<td><a href="'. URL . 'note/edit/' . $value['noteid'] .'">Edit</a></td>';
+            echo '<td><a class="delete" href="'. URL . 'note/delete/' . $value['noteid'] .'">Delete</a></td>';
+            echo '</tr>';
         }
     ?>
 </table>
+
+<script>
+    $(function() {
+        
+        $('.delete').click(function(e) {
+            
+            e.preventDefault();
+            
+            var c = confirm("Are you sure you want to delete?");
+            if (c == false) return false;
+        });
+    });
+</script>
 

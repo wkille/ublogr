@@ -10,8 +10,11 @@ class User extends Controller {
     }
     
     public function index() {
+        $this->view->title = 'Users';
         $this->view->userList = $this->model->userList();
+        $this->view->render('header');
         $this->view->render('user/index');
+        $this->view->render('footer');
     }
     
     public function create() {
@@ -29,8 +32,11 @@ class User extends Controller {
     }
     
     public function edit($id) {
+        $this->view->title = 'Edit User';
         $this->view->user = $this->model->userSingleList($id);
+        $this->view->render('header');
         $this->view->render('user/edit');
+        $this->view->render('footer');
     }
     
     public function editSave($id) {

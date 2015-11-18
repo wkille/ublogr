@@ -9,7 +9,10 @@ class Help extends Controller {
     }
     
     function index() {
+        $this->view->title = 'Help';
+        $this->view->render('header');
         $this->view->render('help/index');
+        $this->view->render('footer');
     }
     
     public function other($arg = false) {

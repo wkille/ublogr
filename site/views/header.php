@@ -3,7 +3,7 @@
 <html>
     
     <head>
-        <title>Test</title>
+        <title><?=(isset($this->title)) ? $this->title: 'MVC'; ?></title>
         <link rel="stylesheet" href="<?php echo URL; ?>public/css/default.css" />
         <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

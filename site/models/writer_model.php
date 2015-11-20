@@ -1,6 +1,6 @@
 <?php
 
-class User_Model extends Model {
+class Writer_Model extends Model {
     
     public function __construct() {
         parent::__construct();
@@ -19,10 +19,10 @@ class User_Model extends Model {
     
     public function create($data) {
         
-        $this->db->insert('user', array(
-                'login' => $data['login'],
-                'password' => Hash::create('sha256', $data['password'], HASH_PASSWORD_KEY),
-                'role' => $data['role']
+        $this->db->insert('writer', array(
+                'email' => $data['email'],
+                'username' => $data['login'],
+                'password' => Hash::create('sha256', $data['password'], HASH_PASSWORD_KEY)
             ));
     }
     

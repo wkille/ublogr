@@ -5,6 +5,7 @@ class Writer extends Controller {
     
     public function __construct() {
         parent::__construct();
+        //Auth::handleLogin();
 
     }
     
@@ -44,22 +45,39 @@ class Writer extends Controller {
         $data['login'] = $_POST['username'];
         $data['password'] = $_POST['password'];
         
-        // @todo: error checking!
         
-        $this->model->create($data);
+        $this->validate = new Validate($data, 'writer');
         
-        // send a confirmation email - needs prettyfying with From field, etc
-        // the message - needs an identifying link (i.e. GET params)
-        $msg = "Follow the link to confirm your signup!\n"
-                    . '<a href="http://ublogr.com">This is the link...</a>';
-        $headers = "MIME-Version: 1.0" . "\r\n";
-        $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-        // use wordwrap() if lines are longer than 70 characters
-        // $msg = wordwrap($msg,70);
-        // send email
-        mail($_POST['email'],"Confirmation",$msg,$headers);
-
-        header('location:' .URL. 'confirmSignup');
+        // var_dump($this->validate->error);
+        
+        
+        if ($this->validate->error == "No error") {
+            
+            
+            // continue
+        
+            $this->model->create($data);
+            
+            /*
+            // send a confirmation email - needs prettyfying with From field, etc
+            // the message - needs an identifying link (i.e. GET params)
+            $msg = "Follow the link to confirm your signup!\n"
+                        . '<a href="http://ublogr.com">This is the link...</a>';
+            $headers = "MIME-Version: 1.0" . "\r\n";
+            $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+            // use wordwrap() if lines are longer than 70 characters
+            // $msg = wordwrap($msg,70);
+            // send email
+            mail($_POST['email'],"Confirmation",$msg,$headers);
+            */
+    
+            header('location:' .URL. 'confirmSignup');
+            
+            
+        } else {
+            header('location:' .URL. 'writer');
+            echo $this->validate->error;
+        }
     }
     
     /***************************************************

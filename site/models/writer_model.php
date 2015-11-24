@@ -17,6 +17,13 @@ class Writer_Model extends Model {
         return $this->db->select('SELECT userid, login, role FROM user WHERE userid = :userid', array(':userid' => $userid));
     }
     
+    public function checkForEmail($email) {
+        
+        if($this->db->select('SELECT `email` FROM writer WHERE `email` = :email', array(':email' => $email))[0]['email'] == $email) {
+            return true;
+        } else return false;
+    }
+    
     public function create($data) {
         
         $this->db->insert('writer', array(

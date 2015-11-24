@@ -36,14 +36,15 @@ Class Validate {
      * 
      * @param $table string Name of table to query
      * 
-     * 
+     * @param $error string The error to be returned, or
+     *      'No error'.
      * 
      *****************************************************/
-    function __construct($data, $table=null) {
+    function __construct($data) {
         
         // if($table) include 'db connection'
         
-        $error = "error";
+        // $error = ''; 
         
         // $_POST['email'] must be an email address //
         // $_POST['email'] must not be blank //
@@ -55,8 +56,6 @@ Class Validate {
         // $_POST['password'] must match the specified regex
         
         
-        
-        
         if(isset($data['email'])) {
             
             if(empty($data['email'])) {
@@ -66,7 +65,6 @@ Class Validate {
             } else {
                 $this->error = "No error";
             }
-            
             return $error;
         }
         

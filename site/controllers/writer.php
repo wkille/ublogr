@@ -46,16 +46,26 @@ class Writer extends Controller {
         $data['password'] = $_POST['password'];
         
         
-        $this->validate = new Validate($data, 'writer');
+        $this->validate = new Validate($data);
         
-        // var_dump($this->validate->error);
         
         
         if ($this->validate->error == "No error") {
-            
-            
+            if ($this->model->checkForEmail($data['email']))  {
+                $this->error = "This email address is already registered!";
+                var_dump($this->error);
+                var_dump($this->model->checkForEmail($data['email']));
+                echo 'Not successful';
+            } else {
+                echo 'Success!';
+                var_dump($this->validate->error);
+                var_dump($this->model->checkForEmail($data['email']));
+                var_dump($data['email']);
+            }
+            exit;
+        }
             // continue
-        
+        /*
             $this->model->create($data);
             
             /*
@@ -71,13 +81,14 @@ class Writer extends Controller {
             mail($_POST['email'],"Confirmation",$msg,$headers);
             */
     
-            header('location:' .URL. 'confirmSignup');
-            
-            
+        //    header('location:' .URL. 'confirmSignup');
+           
+       /*     
         } else {
             header('location:' .URL. 'writer');
             echo $this->validate->error;
         }
+    }*/
     }
     
     /***************************************************

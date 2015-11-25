@@ -49,20 +49,25 @@ class Writer extends Controller {
         $this->validate = new Validate($data);
         
         
-        
-        if ($this->validate->error == "No error") {
+        /******************** 
+         * Next: include check for duplicate usernames in writer table
+         ***************************************************************/
+        if (empty($this->validate->error)) {
             if ($this->model->checkForEmail($data['email']))  {
                 $this->error = "This email address is already registered!";
                 var_dump($this->error);
-                var_dump($this->model->checkForEmail($data['email']));
+                //print_r($this->model->checkForEmail($data['email']));
                 echo 'Not successful';
             } else {
+                //echo $this->model->checkForEmail($data['email']);
+                $this->model->create($data);
                 echo 'Success!';
-                var_dump($this->validate->error);
-                var_dump($this->model->checkForEmail($data['email']));
-                var_dump($data['email']);
+                //print_r($this->validate->error);
+                //var_dump($data['email']);
             }
-            exit;
+            //exit;
+        } else {
+            var_dump($this->validate->error);
         }
             // continue
         /*

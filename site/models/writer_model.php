@@ -19,7 +19,7 @@ class Writer_Model extends Model {
     
     public function checkForEmail($email) {
         
-        if($this->db->select('SELECT `email` FROM writer WHERE `email` = :email', array(':email' => $email))[0]['email'] == $email) {
+        if($this->db->select('SELECT `email` FROM writer WHERE `email` = :email LIMIT 1', array(':email' => $email))[0]['email'] == $email) {
             return true;
         } else return false;
     }

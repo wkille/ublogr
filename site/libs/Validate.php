@@ -42,31 +42,45 @@ Class Validate {
      *****************************************************/
     function __construct($data) {
         
-        // if($table) include 'db connection'
-        
         // $error = ''; 
         
         // $_POST['email'] must be an email address //
         // $_POST['email'] must not be blank //
-        // $_POST['email'] must not be registered already
-        // $_POST['username'] must be > 6 chars
-        // $_POST['username'] must match the specified regex
+        // $_POST['email'] must not be registered already //
+        // $_POST['username'] must be > 4 chars //
+        // $_POST['username'] must match the specified regex //
         // $_POST['username'] must not already be registered
         // $_POST['password'] must not be blank
         // $_POST['password'] must match the specified regex
         
-        
         if(isset($data['email'])) {
             
             if(empty($data['email'])) {
-                $this->error = "Please enter an email address";
+                $this->error[] = "Please enter an email address";
             } elseif(!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-                $this->error = "Please enter a valid email address";
-            } else {
-                $this->error = "No error";
-            }
-            return $error;
+                $this->error[] = "Please enter a valid email address";
+            } /*else {
+                $this->error[] = "No email error";
+            }*/
+            //return $error;
         }
+        
+        if(isset($data['login'])) {
+            if(empty($data['login'])) {
+                $this->error[] = "Please enter a username";
+            } elseif(preg_match('/[^a-z0-9]/i', $data['login'])) {
+                $this->error[] = "Please only use letters and numbers in your username";
+            } elseif(strlen($data['login'])<4) {
+                $this->error[] = "Usernames must be at least four characters long";
+            } elseif(strlen($data['login'])>25) {
+                $this->error[] = "Usernames must be less than 25 characters long";
+            } /*else {
+                $this->error[] = "No username error";
+            }*/
+            //return $error;
+        }
+        return $error;
+        
         
         /*if($data['username']) {
             

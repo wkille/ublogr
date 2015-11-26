@@ -24,11 +24,18 @@ class Writer_Model extends Model {
         } else return false;
     }
     
+    public function checkForUsername($username) {
+        
+        if($this->db->select('SELECT `username` FROM writer WHERE `username` = :username LIMIT 1', array(':username' => $username))[0]['username'] == $username) {
+            return true;
+        } else return false;
+    }
+    
     public function create($data) {
         
         $this->db->insert('writer', array(
                 'email' => $data['email'],
-                'username' => $data['login'],
+                'username' => $data['username'],
                 'password' => Hash::create('sha256', $data['password'], HASH_PASSWORD_KEY)
             ));
     }
